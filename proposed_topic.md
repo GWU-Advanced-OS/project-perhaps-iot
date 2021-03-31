@@ -8,6 +8,6 @@ ThreadX is a deterministic, embedded RTOS created by Express Logic (acquired by 
 
 ThreadX as described by [Microsoft](https://docs.microsoft.com/en-us/azure/rtos/threadx/overview-threadx#azure-rtos-threadx-services): Azure RTOS ThreadX provides advanced scheduling, communication, synchronization, timer, memory management, and interrupt management facilities.
 
-API Description: https://docs.microsoft.com/en-us/azure/rtos/threadx/overview-threadx#azure-rtos-threadx-services 
+API Description: https://docs.microsoft.com/en-us/azure/rtos/threadx/overview-threadx#azure-rtos-threadx-services   
 Execution Time: https://docs.microsoft.com/en-us/azure/rtos/threadx/overview-threadx#fast-execution 
 
