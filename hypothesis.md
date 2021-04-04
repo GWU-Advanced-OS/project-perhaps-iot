@@ -12,3 +12,13 @@
 
 
 ## Hypothesis
+#### Our hypothesized answers to the above questions, with links to docs/code that gives us this impression.
+1. Answer
+2. Answer
+3. Answer
+4. Answer
+5. Answer
+6. Answer
+7. Answer
+8. Answer
+9. Answer
