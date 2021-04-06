@@ -13,15 +13,7 @@
 
 ## Hypothesis
 #### Our hypothesized answers to the above questions, with links to docs/code that gives us this impression.
-1. Azure RTOS ThreadX is an RTOS designed specifically for multithreaded and
-   safety-critical embedded applications. It acheives this goal by providing
-conventional RTOS features such as priority inheritance and deterministic
-processing, as well as features unique to ThreadX such as premption-thresholds
-(the ability to determine the need for preemptive versus non-premptive
-scheduling) and memory protection provided by Modules (bundled application
-threads that can be dynamically loaded and run on the target). 
-
-It exists because Bill Lamie, the creator of ThreadX, wanted to improve on
+1. Azure RTOS ThreadX is an RTOS designed specifically for multithreaded and safety-critical embedded applications. It acheives this goal by providing conventional RTOS features such as priority inheritance and deterministic processing, as well as features unique to ThreadX such as premption-thresholds (the ability to determine the need for preemptive versus non-premptive scheduling) and memory protection provided by Modules (bundled application threads that can be dynamically loaded and run on the target). It exists because Bill Lamie, the creator of ThreadX, wanted to improve on
 prior RTOSes he created (Nucleus RTX and Nucleus PLUS). Lamie's primary
 motivation in creating all of these RTOSes was to make them simple and easy to
 use. 
@@ -33,7 +25,11 @@ use.
 that don't require several tasks being done concurrently. Actual applications
 of ThreadX share a common need for real-time systems with a small memory footprint and multitasking abilities. 
 (https://militaryembedded.com/comms/rf-and-microwave/case-bullseye-million-miles-away)
-3. answer
+3. The core modules of ThreadX are threads and ThreadX modules. 
+Isolation is provided through ThreadX Modules (https://docs.microsoft.com/en-us/azure/rtos/threadx-modules/chapter1).
+![Alt text](https://docs.microsoft.com/en-us/azure/rtos/threadx-modules/media/image2.png "a title") 
+The modules communicate via a ThreadX Module api (https://docs.microsoft.com/en-us/azure/rtos/threadx-modules/chapter4).
+ThreadX modules provide dynamic memory management so that several large modules can be running on little memory by only allocating memory to the specific thread running, not the whole module. 
 4. ThreadX aims to provide scheduling, communication, synchronization, timer, memory management, and interrupt management facilities for embedded, real-time, and IoT applications. ThreadX is a component of the larger Azure RTOS (as seen in this dependency diagram: https://github.com/azure-rtos/threadx#understanding-inter-component-dependencies). This design differs from more traditional OS's like Linux and Plan9., which have a more monolithic architecture.  
 5. ThreadX is a specialized OS (use case is embedded, real-time, IoT) and benchmarking places it to be faster than most other commercial RTOSes (benchmarking data: https://docs.microsoft.com/en-us/azure/rtos/threadx/overview-threadx#fast-execution ). Since it has a specific use case, if the conditions aren't in line with the use case, the perfance will likely be sub optimal since the system is so specialized. It's difficult to compare Linux and ThreadX since the use cases are very different, but I did find a paper (https://webthesis.biblio.polito.it/8505/1/tesi.pdf) that discusses benchmarking embedded Linux. Unfortunately, the same tests aren't conducted on both Linux and ThreadX so they can't directly be compared; however, the information found was still interesting.  
 6. ThreadX consists of four types of program execution: Initialization, Thread Execution, Interrupt Service Routines (ISRs), and Application Timers. Each of these execution modes consists of different components, but generally each mode consists of memory usage (static, dynamic), interrupts, threads, application definition, preemption, scheduling algorithms (round robin, time slice), and message queue management.  
