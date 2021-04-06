@@ -13,6 +13,7 @@ Security concerns:
 * https://docs.microsoft.com/en-us/azure/rtos/threadx/chapter3#time-slicing
 * https://docs.microsoft.com/en-us/azure/rtos/threadx/chapter3#deadly-embrace
 * https://docs.microsoft.com/en-us/azure/rtos/threadx/chapter3#memory-pitfalls
+
 System Optimizations:
 * https://docs.microsoft.com/en-us/azure/rtos/threadx/overview-threadx#advanced-technology
 
