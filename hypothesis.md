@@ -16,9 +16,9 @@
 1. Answer
 2. Answer
 3. Answer
-4. Answer
-5. Answer
-6. Answer
+4. ThreadX aims to provide scheduling, communication, synchronization, timer, memory management, and interrupt management facilities for embedded, real-time, and IoT applications. ThreadX is a component of the larger Azure RTOS (as seen in this dependency diagram: https://github.com/azure-rtos/threadx#understanding-inter-component-dependencies). This design differs from more traditional OS's like Linux and Plan9., which have a more monolithic architecture.  
+5. ThreadX is a specialized OS (use case is embedded, real-time, IoT) and benchmarking places it to be faster than most other commercial RTOSes (benchmarking data: https://docs.microsoft.com/en-us/azure/rtos/threadx/overview-threadx#fast-execution ). Since it has a specific use case, if the conditions aren't in line with the use case, the perfance will likely be sub optimal since the system is so specialized. It's difficult to compare Linux and ThreadX since the use cases are very different, but I did find a paper (https://webthesis.biblio.polito.it/8505/1/tesi.pdf) that discusses benchmarking embedded Linux. Unfortunately, the same tests aren't conducted on both Linux and ThreadX so they can't directly be compared; however, the information found was still interesting.  
+6. ThreadX consists of four types of program execution: Initialization, Thread Execution, Interrupt Service Routines (ISRs), and Application Timers. Each of these execution modes consists of different components, but generally each mode consists of memory usage (static, dynamic), interrupts, threads, application definition, preemption, scheduling algorithms (round robin, time slice), and message queue management.  
 7. Answer
 8. Answer
 9. Answer
