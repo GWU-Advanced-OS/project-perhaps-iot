@@ -7,14 +7,45 @@ Linked from hypothesis.md:
 * https://docs.microsoft.com/en-us/azure/rtos/threadx-modules/chapter1
 * https://docs.microsoft.com/en-us/azure/rtos/threadx-modules/chapter4
 ## Sutton
-Security concerns:
+### Purpose within Systems
+* ThreadX is most concerned with concurrency issues on real-time embedded systems. Support for this large amount of concurrency and priority-based solutions are evident when looking through the code base. Priority of threads and also the threshold to which is required for preemption is stored for each process currently running, which allows for the concurrency of the system. However, because the support for this is so vast, it is unlikely that this OS would be particularly useful for anyone who does not want to take advantage of this aspect of the OS. 
+```
+[Thread Priority or         4           This 4-byte field contains the current thread pointer for interrupt
+             Current Thread                         events or the thread preemption-threshold/priority for thread events.
+             Preemption-Threshold/
+             Priority]
+            [Event ID]         
+```
+<sup>https://github.com/azure-rtos/threadx/blob/d759e6bb9e040bc9f973ef706dc7b0a9c68be916/common/inc/tx_trace.h#L223-L227</sup>
+
+### Modules 
+ThreadX is highly modularized and includes a memory manager within the kernel to keep track of these indivudal modules using a list 
+```
+/* Load the module control block with port-specific information. */
+    TXM_MODULE_MANAGER_MODULE_SETUP(module_instance);
+
+    /* Now add the module to the linked list of created modules.  */
+    if (_txm_module_manger_loaded_count++ == 0)
+    {
+
+        /* The loaded module list is empty.  Add module to empty list.  */
+        _txm_module_manager_loaded_list_ptr =                     module_instance;
+        module_instance -> txm_module_instance_loaded_next =      module_instance;
+        module_instance -> txm_module_instance_loaded_previous =  module_instance;
+    }
+```
+<sup>[(src: txm_module_manager_absolute_load.c)](https://github.com/azure-rtos/threadx/blob/d759e6bb9e040bc9f973ef706dc7b0a9c68be916/common_modules/module_manager/src/txm_module_manager_absolute_load.c#L403-L414)</sup> 
+
+Specific modules can run as memory protected by defining `TXM_MODULE_MEMORY_PROTECTION_ENABLED` without this definied, any modules that need memory protection to run will not run. <sup>[(src: txm_module_port.h)](https://github.com/azure-rtos/threadx/blob/d759e6bb9e040bc9f973ef706dc7b0a9c68be916/ports_module/cortex-a7/ac5/inc/txm_module_port.h#L89-L96)<sup>
+
+### Security concerns
 * https://docs.microsoft.com/en-us/azure/rtos/threadx/overview-threadx#memory-protection-via-azure-rtos-threadx-modules
 * https://docs.microsoft.com/en-us/azure/rtos/threadx/chapter3#thread-scheduling
 * https://docs.microsoft.com/en-us/azure/rtos/threadx/chapter3#time-slicing
 * https://docs.microsoft.com/en-us/azure/rtos/threadx/chapter3#deadly-embrace
 * https://docs.microsoft.com/en-us/azure/rtos/threadx/chapter3#memory-pitfalls
 
-System Optimizations:
+### System Optimizations
 * https://docs.microsoft.com/en-us/azure/rtos/threadx/overview-threadx#advanced-technology
 
 ## Tuhina
