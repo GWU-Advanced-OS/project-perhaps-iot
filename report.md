@@ -24,3 +24,17 @@ Azure RTOS ThreadX has several optimizations to speed up execution times. The fi
 Azure RTOS ThreadX writes themselves that the use case for this OS is very specific and narrow in scope, namely deeply embedded applications, and I agree with that assessment. I think that the system could better address security concerns (mentioned in question 7) than simply saying avoid doing this. It’s difficult to tell what amount of the information in the docs is marketing vs what’s true but based on the performance metrics, the certifications, and the fact that it can easily connect to be part of a larger ecosystem, ThreadX is a very good OS for its specific use case.
 
 ## Conclusion  
+
+# Sources
+### Sutton
+1a
+2a
+3a
+### Becky
+1b
+2b
+3b
+### Tuhina
+1c
+2c
+3c
