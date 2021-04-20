@@ -1,6 +1,5 @@
 ## Intro  
-ThreadX is a deterministic, embedded RTOS created by Express Logic (acquired by Microsoft) that provides "preemption-threshold, priority inheritance, efficient timer management, fast software timers, picokernel design, event-chaining, and small size: minimal size on an ARM architecture processor is about 2 KB." [referenced from Wikipedia]( https://en.wikipedia.org/wiki/ThreadX)  
-ThreadX as described by [Microsoft](https://docs.microsoft.com/en-us/azure/rtos/threadx/overview-threadx#azure-rtos-threadx-services): Azure RTOS ThreadX provides advanced scheduling, communication, synchronization, timer, memory management, and interrupt management facilities.
+ThreadX is a deterministic, embedded RTOS created by Express Logic (acquired by Microsoft) that provides "preemption-threshold, priority inheritance, efficient timer management, fast software timers, picokernel design, event-chaining, and small size: minimal size on an ARM architecture processor is about 2 KB." [referenced from Wikipedia]( https://en.wikipedia.org/wiki/ThreadX). ThreadX as described by [Microsoft](https://docs.microsoft.com/en-us/azure/rtos/threadx/overview-threadx#azure-rtos-threadx-services): Azure RTOS ThreadX provides advanced scheduling, communication, synchronization, timer, memory management, and interrupt management facilities. It is important to note that ThreadX is a component of the larger Azure RTOS. 
 
 ## Q1  
 
@@ -25,7 +24,7 @@ Azure RTOS ThreadX writes themselves that the use case for this OS is very speci
 
 ## Conclusion  
 
-# Sources
+## Sources
 ### Sutton
 1a
 2a
@@ -35,6 +34,13 @@ Azure RTOS ThreadX writes themselves that the use case for this OS is very speci
 2b
 3b
 ### Tuhina
-1c
-2c
-3c
+1c: https://docs.microsoft.com/en-us/azure/rtos/threadx/overview-threadx#eal4-common-criteria-security-certification, https://docs.microsoft.com/en-us/azure/rtos/threadx/overview-threadx#pre-certified-by-tuv-and-ul-to-many-safety-standards  
+2c: https://github.com/azure-rtos/threadx#security  
+3c: https://github.com/azure-rtos/threadx/blob/master/common/src/tx_semaphore_initialize.c  
+4c: https://github.com/azure-rtos/threadx/blob/master/common/src/tx_mutex_initialize.c  
+5c: https://github.com/azure-rtos/threadx/blob/master/common/src/tx_thread_relinquish.c  
+6c: https://docs.microsoft.com/en-us/azure/rtos/threadx/chapter3#memory-pitfalls  
+7c: https://docs.microsoft.com/en-us/azure/rtos/threadx/chapter3#thread-priority-pitfalls  
+8c: https://docs.microsoft.com/en-us/azure/rtos/threadx/overview-threadx#fast-execution  
+9c: https://docs.microsoft.com/en-us/azure/rtos/netx-duo/netx-secure-tls/chapter3  
+10c: https://docs.microsoft.com/en-us/azure/rtos/levelx/chapter5  
