@@ -54,10 +54,35 @@ Above is a sample of how the module manager loading two mondules and altering in
 ```
 
 ## Q4  
+ThreadX aims to provide scheduling, communication, synchronization, timer, memory management, and interrupt management facilities for embedded, real-time, and IoT applications. These relatively common abstractions differ from other real-time systems’ versions of them in various ways, such as ThreadX providing “preemption threshold” scheduling as opposed to preemptive scheduling. Preemption threshold scheduling is the notion of scheduling tasks preemptively only if they are above a customizable threshold. For example, only allowing tasks of priority 10 and higher to preempt execution. This model of scheduling is beneficial to ThreadX due to its inherently multithreaded model. Having more threads of execution being able to preempt execution makes it more difficult for ThreadX to make deterministic time guarantees. Therefore, setting a priority threshold allows ThreadX to still reap the real-time benefits of preemptive priority-based scheduling without needing to be concerned with the negative impact of having lots of threads<sup>[[1b]](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=811269)</sup>. 
+  
+We can see how ThreadX handles setting a preemption threshold in the following code block from the file tx_thread_preemption_change.c<sup>[[2b]](https://github.com/azure-rtos/threadx/blob/master/common/src/tx_thread_preemption_change.c#L168)</sup>.
 
-## Q5  
+```
+        /* Return the user's preemption-threshold.   */
+        *old_threshold =  thread_ptr -> tx_thread_user_preempt_threshold;
 
-## Q6  
+        /* Setup the new threshold.  */
+        thread_ptr -> tx_thread_user_preempt_threshold =  new_threshold;
+``` 
+
+On a larger scale, ThreadX is one component of the larger Azure RTOS, as seen in this dependency diagram<sup>[[3b]](https://github.com/azure-rtos/threadx#understanding-inter-component-dependencies)</sup>. 
+
+![dependency](https://raw.githubusercontent.com/azure-rtos/threadx/master/docs/deps.png "dependency") 
+
+It can be used independent of the rest of the components as a functional RTOS, as the other services are optionally implemented. By abstracting its services like this, Azure RTOS allows users to run simpler projects on Azure RTOS and exclude unnecessary services from the overhead of the entire system.
+
+## Q5 
+
+ThreadX is a specialized OS (use case is embedded, real-time, IoT) and ThreadX’s own benchmarking places it to be faster than most other commercial RTOSes <sup>[[4b]](https://docs.microsoft.com/en-us/azure/rtos/threadx/overview-threadx#fast-execution)</sup>. However, taking this at facevalue is disingenious to how ThreadX performs in other situations, depending on its use cases and the hardware that it is running on. ThreadX’s optimal use case is a multithreaded, real-time embedded system, and if the conditions aren't in line with the use case, the performance will likely be suboptimal. Other than use-case, performance varies depending on the hardware that ThreadX is running on <sup>[[5b]](https://link.springer.com/content/pdf/10.1007%2F978-3-642-25734-6_72.pdf)</sup>. This paper compares the time it takes for ThreadX to complete tasks such as interrupt preemption and message passing on a 200MHz ARM926 versus a 96MHz Kinetis K60. In the following diagram cited from the paper, you can see the varying permformance results. 
+
+![benchmark](https://i.ibb.co/44qMshh/benchmark.png "benchmark") 
+
+So while Microsoft's docs market it as faster than other RTOSes, this can only be said to be true for ThreadX in its optimal use case. 
+
+## Q6 
+
+ThreadX consists of four types of program execution: Initialization, Thread Execution, Interrupt Service Routines (ISRs), and Application Timers. Each of these execution modes consists of different components, but generally each mode consists of memory usage (static, dynamic), interrupts, threads, application definition, preemption, scheduling algorithms (round robin, time slice), and message queue management.
 
 ## Q7 
 When searching Azure RTOS ThreadX documentation for security features, I found that it has several security certifications such as EAL4+ Common Criteria. The Target of Evaluation (TOE) covers Azure RTOS ThreadX, Azure RTOS NetX-Duo, Azure RTOS NetX Secure TLS, and Azure RTOS NetX MQTT. This represents the most typical IoT protocols required by deeply embedded sensors, devices, edge routers, and gateways.The IT Security Evaluation Facility used for the Azure RTOS security certification is Brightsight BV and the Certification Authority is SERTIT. <sup>[[1c]](https://docs.microsoft.com/en-us/azure/rtos/threadx/overview-threadx#pre-certified-by-tuv-and-ul-to-many-safety-standards)</sup>. The documentation also mentions that ThreadX supports IP layer security (IPsec) and socket layer security (TLS and DTLS) protocols, is tested and certified to meet international security assurance requirements, and integrated with Azure Defender to detect threats and remediate issues. The ThreadX repository on Github states that Azure RTOS provides OEMs with components to secure communication and to create code and data isolation using underlying MCU/MPU hardware protection mechanisms <sup>[[2c]](https://github.com/azure-rtos/threadx#security)</sup>. In addition to the security provided by Azure RTOS ThreadX, there are additional compatible services available, termed Azure Sphere, to add layers of security to the system such as Azure Sphere–certified chips (HW), Azure Sphere OS, and Azure Sphere Security Service. ThreadX itself doesn’t seem to provide many security features unique to the system, only properties that are inherently included. ThreadX does have a semaphore implementation <sup>[[3c]](https://github.com/azure-rtos/threadx/blob/master/common/src/tx_semaphore_initialize.c)</sup>, mutex implementation <sup>[[4c]](https://github.com/azure-rtos/threadx/blob/master/common/src/tx_mutex_initialize.c)</sup>, and preemption-threshold scheduling implementation<sup>[[5c]](https://github.com/azure-rtos/threadx/blob/master/common/src/tx_thread_relinquish.c)</sup>, which is impressive for a RTOS. However, there is a large issue with the memory management for threads as it is easily possible to overflow the stack. More worrisome than the system simply crashing or exiting due to this overflow, is the fact that the results are unpredictable, typically resulting in an unnatural change in the program counter. This is often called "jumping into the weeds." The only way to prevent this is to ensure all thread stacks are large enough <sup>[[6c]](https://docs.microsoft.com/en-us/azure/rtos/threadx/chapter3#memory-pitfalls)</sup>. Similarly, there is an issue with thread priority, as ThreadX provides a priority-based, preemptive scheduling algorithm, which could lead to starvation. Misuse of thread priorities can starve other threads, create priority inversion, reduce processing bandwidth, and make the application's run-time behavior difficult to understand. Another possible issue is priority inversion. Priority inversion takes place when a higher priority thread is suspended because a lower priority thread has a needed resource <sup>[[7c]](https://docs.microsoft.com/en-us/azure/rtos/threadx/chapter3#thread-priority-pitfalls)</sup>. If threads of intermediate priority become active during this priority inversion condition, the priority inversion time is no longer deterministic and could cause an application failure. To some extent these issues appear with any system containing multi threading, however, I think that ThreadX should have better security for these cases by having safe exit/end behavior whenever possible.
@@ -83,10 +108,14 @@ Azure RTOS ThreadX is a highly specialized RTOS that is optimized for the specif
 8a: https://docs.microsoft.com/en-us/azure/rtos/threadx-modules/chapter3  
 9a: https://docs.microsoft.com/en-us/azure/rtos/threadx-modules/chapter3#module-manager-example  
 10a: https://github.com/azure-rtos/threadx/blob/d759e6bb9e040bc9f973ef706dc7b0a9c68be916/common_modules/module_manager/src/txm_module_manager_absolute_load.c#L403-L414  
-### Becky
-1b
-2b
-3b
+### Becky 
+
+1b: https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=811269
+2b: https://github.com/azure-rtos/threadx/blob/master/common/src/tx_thread_preemption_change.c#L168
+3b: https://github.com/azure-rtos/threadx#understanding-inter-component-dependencies
+4b: https://docs.microsoft.com/en-us/azure/rtos/threadx/overview-threadx#fast-execution
+5b: https://link.springer.com/content/pdf/10.1007%2F978-3-642-25734-6_72.pdf
+
 ### Tuhina
 1c: https://docs.microsoft.com/en-us/azure/rtos/threadx/overview-threadx#pre-certified-by-tuv-and-ul-to-many-safety-standards  
 2c: https://github.com/azure-rtos/threadx#security  
