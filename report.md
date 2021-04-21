@@ -110,11 +110,11 @@ Azure RTOS ThreadX is a highly specialized RTOS that is optimized for the specif
 10a: https://github.com/azure-rtos/threadx/blob/d759e6bb9e040bc9f973ef706dc7b0a9c68be916/common_modules/module_manager/src/txm_module_manager_absolute_load.c#L403-L414  
 ### Becky 
 
-1b: https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=811269
-2b: https://github.com/azure-rtos/threadx/blob/master/common/src/tx_thread_preemption_change.c#L168
-3b: https://github.com/azure-rtos/threadx#understanding-inter-component-dependencies
-4b: https://docs.microsoft.com/en-us/azure/rtos/threadx/overview-threadx#fast-execution
-5b: https://link.springer.com/content/pdf/10.1007%2F978-3-642-25734-6_72.pdf
+1b: https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=811269  
+2b: https://github.com/azure-rtos/threadx/blob/master/common/src/tx_thread_preemption_change.c#L168  
+3b: https://github.com/azure-rtos/threadx#understanding-inter-component-dependencies  
+4b: https://docs.microsoft.com/en-us/azure/rtos/threadx/overview-threadx#fast-execution  
+5b: https://link.springer.com/content/pdf/10.1007%2F978-3-642-25734-6_72.pdf  
 
 ### Tuhina
 1c: https://docs.microsoft.com/en-us/azure/rtos/threadx/overview-threadx#pre-certified-by-tuv-and-ul-to-many-safety-standards  
